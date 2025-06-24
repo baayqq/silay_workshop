@@ -13,14 +13,14 @@ class RegisterPage extends StatelessWidget {
           children: [
             SizedBox(height: 48),
             Image.asset('assets/images/logo.png', width: 240),
-            Text(
-              'Silay WorkShop',
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+            // Text(
+            //   'Silay WorkShop',
+            //   style: TextStyle(
+            //     fontSize: 36,
+            //     fontWeight: FontWeight.bold,
+            //     color: Colors.white,
+            //   ),
+            // ),
             SizedBox(height: 36),
             Padding(
               padding: const EdgeInsets.all(28.0),

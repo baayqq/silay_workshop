@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:silay_workshop/auth/register.dart';
+import 'package:silay_workshop/pages/navhome.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -13,14 +14,7 @@ class LoginPage extends StatelessWidget {
           children: [
             SizedBox(height: 48),
             Image.asset('assets/images/logo.png', width: 240),
-            Text(
-              'Silay WorkShop',
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+
             SizedBox(height: 36),
             Padding(
               padding: const EdgeInsets.all(28.0),
@@ -86,7 +80,15 @@ class LoginPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomeBottom(),
+                            ),
+                            (route) => false,
+                          );
+                        },
                         child: Text(
                           'LOGIN',
                           style: TextStyle(
