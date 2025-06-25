@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:silay_workshop/auth/login.dart';
+import 'package:silay_workshop/database/sharedprefence.dart';
 import 'package:silay_workshop/pages/home.dart';
 import 'package:silay_workshop/pages/service.dart';
 
@@ -34,7 +35,7 @@ class _HomeBottomState extends State<HomeBottom> {
           _appBarTitles[_pilihIndex],
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 32,
+            fontSize: 24,
             color: Colors.white,
           ),
         ),
@@ -68,7 +69,14 @@ class _HomeBottomState extends State<HomeBottom> {
               ListTile(
                 leading: Icon(Icons.exit_to_app, color: Colors.white),
                 title: Text('Logout', style: TextStyle(color: Colors.white)),
-                onTap: () {
+                onTap: () async {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('berhasil keluar'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  await SharedPrefService.removeToken();
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => LoginPage()),
@@ -89,7 +97,7 @@ class _HomeBottomState extends State<HomeBottom> {
         ],
         backgroundColor: Color(0xff0D47A1),
         currentIndex: _pilihIndex,
-        selectedItemColor: Color(0xFFF1F8E9),
+        selectedItemColor: Colors.yellow[600],
         onTap: _pilihNavigator,
       ),
     );
