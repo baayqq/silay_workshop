@@ -3,7 +3,6 @@ import 'package:silay_workshop/api/api_file.dart';
 import 'package:silay_workshop/auth/register.dart';
 import 'package:silay_workshop/database/sharedprefence.dart';
 import 'package:silay_workshop/pages/navhome.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

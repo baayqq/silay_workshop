@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:silay_workshop/auth/login.dart';
 import 'package:silay_workshop/database/sharedprefence.dart';
+import 'package:silay_workshop/pages/addservice.dart';
 import 'package:silay_workshop/pages/home.dart';
 import 'package:silay_workshop/pages/service.dart';
 
@@ -16,10 +17,11 @@ class _HomeBottomState extends State<HomeBottom> {
 
   static final List<Widget> _butonNavigator = <Widget>[
     HomeScreen(),
-    ServPage(),
+    ServicePage(),
+    AddService(),
   ];
 
-  static final List<String> _appBarTitles = ['Dashboard', 'Service'];
+  static final List<String> _appBarTitles = ['Dashboard', 'Service', 'Booking'];
 
   void _pilihNavigator(int index) {
     setState(() {
@@ -30,6 +32,7 @@ class _HomeBottomState extends State<HomeBottom> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffF1F1F5),
       appBar: AppBar(
         title: Text(
           _appBarTitles[_pilihIndex],
@@ -93,11 +96,16 @@ class _HomeBottomState extends State<HomeBottom> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Service'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.car_crash),
+            label: 'Service',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Booking'),
         ],
         backgroundColor: Color(0xff0D47A1),
         currentIndex: _pilihIndex,
         selectedItemColor: Colors.yellow[600],
+        unselectedItemColor: Colors.white70,
         onTap: _pilihNavigator,
       ),
     );
