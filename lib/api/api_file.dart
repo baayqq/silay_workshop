@@ -11,6 +11,7 @@ import 'package:silay_workshop/model/regist_already.dart';
 import 'package:silay_workshop/model/regist_error.dart';
 import 'package:silay_workshop/model/regist_model.dart';
 import 'package:silay_workshop/model/service_model.dart';
+import 'package:silay_workshop/model/edit_model.dart';
 
 class UserService {
   Future<Map<String, dynamic>> registUser(
@@ -58,9 +59,100 @@ class UserService {
   }
 
   Future<Map<String, dynamic>> addService({
-    required String bookingDate,
+    // required String bookingDate,
     required String vehicleType,
-    required String description,
+    required String complaint,
+  }) async {
+    try {
+      final token = await SharedPrefService.getToken();
+
+      if (token == null) {
+        throw Exception(
+          'Token tidak ditemukan. Silakan login terlebih dahulu.',
+        );
+      }
+
+      final response = await http.post(
+        Uri.parse(Endpoint.liatservice),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: {
+          // 'booking_date': bookingDate,
+          'vehicle_type': vehicleType,
+          'complaint': complaint,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Parsing jika sukses
+        return addserviceFromJson(response.body).toJson();
+      } else {
+        // Coba ambil pesan error dari API (kalau ada)
+        final jsonBody = jsonDecode(response.body);
+        final errorMessage = jsonBody['message'] ?? 'Gagal menambah layanan.';
+        throw Exception('Error ${response.statusCode}: $errorMessage');
+      }
+    } catch (e) {
+      // Tangani error lainnya (misalnya parsing atau tidak ada internet)
+      throw Exception('Terjadi kesalahan saat menambah layanan: $e');
+    }
+  }
+
+  Future<List<GetServ>> cstService() async {
+    final token = await SharedPrefService.getToken();
+
+    if (token == null) {
+      throw Exception('Token tidak ditemukan. Silakan login terlebih dahulu.');
+    }
+
+    final response = await http.get(
+      Uri.parse(Endpoint.liatservice),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+
+      final liatservis = Liatserv.fromJson(jsonResponse);
+      print("${liatservis}");
+      print("${jsonResponse}");
+      return liatservis.data ?? [];
+    } else {
+      throw Exception(
+        'Gagal memuat data service. Status: ${response.statusCode}',
+      );
+    }
+  }
+
+  Future<List<ServiceData>> cstServiceWithServiceData() async {
+    final token = await SharedPrefService.getToken();
+
+    if (token == null) {
+      throw Exception('Token tidak ditemukan. Silakan login terlebih dahulu.');
+    }
+
+    final response = await http.get(
+      Uri.parse(Endpoint.liatservice),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final List<dynamic> dataList = jsonResponse['data'];
+      return dataList.map((json) => ServiceData.fromJson(json)).toList();
+    } else {
+      throw Exception(
+        'Gagal memuat data service. Status: ${response.statusCode}',
+      );
+    }
+  }
+
+  Future<EditService> updateService({
+    required int id,
+    required String vehicleType,
+    required String complaint,
   }) async {
     final token = await SharedPrefService.getToken();
 
@@ -68,41 +160,56 @@ class UserService {
       throw Exception('Token tidak ditemukan. Silakan login terlebih dahulu.');
     }
 
-    final response = await http.post(
-      Uri.parse(Endpoint.tambahserv),
+    final response = await http.put(
+      Uri.parse('${Endpoint.liatservice}/$id'),
       headers: {'Accept': 'application/json', 'Authorization': 'Bearer $token'},
-      body: {
-        'booking_date': bookingDate,
-        'vehicle_type': vehicleType,
-        'description': description,
-      },
+      body: {'vehicle_type': vehicleType, 'complaint': complaint},
     );
 
     if (response.statusCode == 200) {
-      return tambahserviceFromJson(response.body).toJson();
+      return editServiceFromJson(response.body);
     } else {
-      throw Exception('Gagal menambah layanan. Status: ${response.statusCode}');
+      throw Exception('Gagal mengupdate data. Status: ${response.statusCode}');
     }
   }
-  Future<List<GetServ>> cstService() async {
-  final token = await SharedPrefService.getToken();
 
-  if (token == null) {
-    throw Exception('Token tidak ditemukan. Silakan login terlebih dahulu.');
+  Future<void> updateStatusService({
+    required int id,
+    required String status,
+  }) async {
+    final token = await SharedPrefService.getToken();
+    final url = Uri.parse('${Endpoint.baseUrl}/api/servis/$id/status');
+
+    final response = await http.put(
+      url,
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'status': status}),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Gagal update status. (${response.statusCode})');
+    }
   }
 
-  final response = await http.get(
-    Uri.parse(Endpoint.liatservice),
-    headers: {'Authorization': 'Bearer $token'},
-  );
+  Future<bool> deleteService(int id) async {
+    final token = await SharedPrefService.getToken();
 
-  if (response.statusCode == 200) {
-    final jsonResponse = jsonDecode(response.body);
-    final liatservis = Liatserv.fromJson(jsonResponse);
-    return liatservis.data ?? []; 
-  } else {
-    throw Exception('Gagal memuat data service. Status: ${response.statusCode}');
+    if (token == null) {
+      throw Exception("Token tidak ditemukan.");
+    }
+
+    final response = await http.delete(
+      Uri.parse('${Endpoint.baseUrl}/api/servis/$id'),
+      headers: {'Accept': 'application/json', 'Authorization': 'Bearer $token'},
+    );
+
+    print('Status code: ${response.statusCode}');
+    print('Body: ${response.body}');
+
+    return response.statusCode == 200;
   }
-}
-
 }

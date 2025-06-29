@@ -3,6 +3,7 @@ import 'package:silay_workshop/auth/login.dart';
 import 'package:silay_workshop/database/sharedprefence.dart';
 import 'package:silay_workshop/pages/addservice.dart';
 import 'package:silay_workshop/pages/home.dart';
+import 'package:silay_workshop/pages/profile.dart';
 import 'package:silay_workshop/pages/service.dart';
 
 class HomeBottom extends StatefulWidget {
@@ -21,7 +22,11 @@ class _HomeBottomState extends State<HomeBottom> {
     AddService(),
   ];
 
-  static final List<String> _appBarTitles = ['Dashboard', 'Service', 'Booking'];
+  static final List<String> _appBarTitles = [
+    'Dashboard',
+    'Panel Admin',
+    'Booking',
+  ];
 
   void _pilihNavigator(int index) {
     setState(() {
@@ -65,7 +70,10 @@ class _HomeBottomState extends State<HomeBottom> {
                 leading: Icon(Icons.manage_accounts, color: Colors.white),
                 title: Text('Profile', style: TextStyle(color: Colors.white)),
                 onTap: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
                 },
               ),
               SizedBox(height: 8),

@@ -1,69 +1,69 @@
 // To parse this JSON data, do
 //
-//     final tambahservice = tambahserviceFromJson(jsonString);
+//     final addservice = addserviceFromJson(jsonString);
 
 import 'dart:convert';
 
-Tambahservice tambahserviceFromJson(String str) => Tambahservice.fromJson(json.decode(str));
+Addservice addserviceFromJson(String str) =>
+    Addservice.fromJson(json.decode(str));
 
-String tambahserviceToJson(Tambahservice data) => json.encode(data.toJson());
+String addserviceToJson(Addservice data) => json.encode(data.toJson());
 
-class Tambahservice {
-    String? message;
-    Data? data;
+class Addservice {
+  String? message;
+  ServiceData? data;
 
-    Tambahservice({
-        this.message,
-        this.data,
-    });
+  Addservice({this.message, this.data});
 
-    factory Tambahservice.fromJson(Map<String, dynamic> json) => Tambahservice(
-        message: json["message"],
-        data: json["data"] == null ? null : Data.fromJson(json["data"]),
-    );
+  factory Addservice.fromJson(Map<String, dynamic> json) => Addservice(
+    message: json["message"],
+    data: json["data"] == null ? null : ServiceData.fromJson(json["data"]),
+  );
 
-    Map<String, dynamic> toJson() => {
-        "message": message,
-        "data": data?.toJson(),
-    };
+  Map<String, dynamic> toJson() => {"message": message, "data": data?.toJson()};
 }
 
-class Data {
-    DateTime? bookingDate;
-    String? vehicleType;
-    String? description;
-    int? userId;
-    DateTime? updatedAt;
-    DateTime? createdAt;
-    int? id;
+class ServiceData {
+  String? vehicleType;
+  String? complaint;
+  int? userId;
+  DateTime? updatedAt;
+  DateTime? createdAt;
+  int? id;
+  String? status; // ✅ tambahkan ini
 
-    Data({
-        this.bookingDate,
-        this.vehicleType,
-        this.description,
-        this.userId,
-        this.updatedAt,
-        this.createdAt,
-        this.id,
-    });
+  ServiceData({
+    this.vehicleType,
+    this.complaint,
+    this.userId,
+    this.updatedAt,
+    this.createdAt,
+    this.id,
+    this.status, // ✅ tambahkan ini
+  });
 
-    factory Data.fromJson(Map<String, dynamic> json) => Data(
-        bookingDate: json["booking_date"] == null ? null : DateTime.parse(json["booking_date"]),
-        vehicleType: json["vehicle_type"],
-        description: json["description"],
-        userId: json["user_id"],
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        id: json["id"],
-    );
+  factory ServiceData.fromJson(Map<String, dynamic> json) => ServiceData(
+    vehicleType: json["vehicle_type"],
+    complaint: json["complaint"],
+    userId:
+        json["user_id"] != null
+            ? int.tryParse(json["user_id"].toString())
+            : null,
+    updatedAt:
+        json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    createdAt:
+        json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+    id: json["id"],
+    status: json["status"], // ✅ tambahkan ini
+  );
 
-    Map<String, dynamic> toJson() => {
-        "booking_date": "${bookingDate!.year.toString().padLeft(4, '0')}-${bookingDate!.month.toString().padLeft(2, '0')}-${bookingDate!.day.toString().padLeft(2, '0')}",
-        "vehicle_type": vehicleType,
-        "description": description,
-        "user_id": userId,
-        "updated_at": updatedAt?.toIso8601String(),
-        "created_at": createdAt?.toIso8601String(),
-        "id": id,
-    };
+  Map<String, dynamic> toJson() => {
+    "vehicle_type": vehicleType,
+    "complaint": complaint,
+    "user_id": userId,
+    "updated_at": updatedAt?.toIso8601String(),
+    "created_at": createdAt?.toIso8601String(),
+    "id": id,
+    "status": status, // ✅ tambahkan ini
+  };
 }

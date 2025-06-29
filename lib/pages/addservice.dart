@@ -18,23 +18,26 @@ class _AddServiceState extends State<AddService> {
   final TextEditingController deskripsiController = TextEditingController();
   final UserService userService = UserService();
   final formKey = GlobalKey<FormState>();
-
-  Future<void> handleAddService() async {
+  void kirimService() async {
     if (formKey.currentState!.validate()) {
       try {
-        final response = await userService.addService(
-          bookingDate: waktuController.text,
+        final result = await userService.addService(
+          // bookingDate: waktuController.text,
           vehicleType: kendaraanController.text,
-          description: deskripsiController.text,
+          complaint: deskripsiController.text,
         );
-        if (response.containsKey('message')) {
+
+        if (result.containsKey('message')) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Berhasil ${response['message']}')),
+            SnackBar(content: Text('Berhasil: ${result['message']}')),
           );
+
+          // Kosongkan input setelah submit
           namaController.clear();
           waktuController.clear();
           kendaraanController.clear();
           deskripsiController.clear();
+          setState(() => selectedDate = null);
         }
       } catch (e) {
         ScaffoldMessenger.of(
@@ -43,6 +46,31 @@ class _AddServiceState extends State<AddService> {
       }
     }
   }
+
+  // Future<void> handleAddService() async {
+  //   if (formKey.currentState!.validate()) {
+  //     try {
+  //       final response = await userService.addService(
+  //         bookingDate: waktuController.text,
+  //         vehicleType: kendaraanController.text,
+  //         complaint: deskripsiController.text,
+  //       );
+  //       if (response.containsKey('message')) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(content: Text('Berhasil ${response['message']}')),
+  //         );
+  //         namaController.clear();
+  //         waktuController.clear();
+  //         kendaraanController.clear();
+  //         deskripsiController.clear();
+  //       }
+  //     } catch (e) {
+  //       ScaffoldMessenger.of(
+  //         context,
+  //       ).showSnackBar(SnackBar(content: Text('Gagal booking: $e')));
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -63,67 +91,67 @@ class _AddServiceState extends State<AddService> {
               child: Column(
                 children: [
                   SizedBox(height: 16),
-                  TextFormField(
-                    controller: namaController,
-                    decoration: InputDecoration(
-                      hintText: "Nama",
-                      hintStyle: TextStyle(color: Color(0xff333333)),
-                      prefixIcon: Icon(Icons.account_box_sharp),
-                      filled: true,
-                      fillColor: Color(0xffffffff),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Email wajib di isi';
-                      }
-                      return null;
-                    },
-                  ),
+                  // TextFormField(
+                  //   controller: namaController,
+                  //   decoration: InputDecoration(
+                  //     hintText: "Nama",
+                  //     hintStyle: TextStyle(color: Color(0xff333333)),
+                  //     prefixIcon: Icon(Icons.account_box_sharp),
+                  //     filled: true,
+                  //     fillColor: Color(0xffffffff),
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(12),
+                  //       borderSide: BorderSide.none,
+                  //     ),
+                  //   ),
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'nama wajib di isi';
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
                   SizedBox(height: 16),
-                  GestureDetector(
-                    onTap: () async {
-                      final DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2100),
-                      );
-                      if (picked != null) {
-                        setState(() {
-                          selectedDate = picked; 
-                          waktuController.text = DateFormat(
-                            'yyyy-MM-dd',
-                          ).format(picked);
-                        });
-                      }
-                    },
-                    child: AbsorbPointer(
-                      child: TextFormField(
-                        controller: waktuController,
-                        decoration: InputDecoration(
-                          hintText: "Tanggal Booking",
-                          hintStyle: TextStyle(color: Color(0xff333333)),
-                          prefixIcon: Icon(Icons.date_range),
-                          filled: true,
-                          fillColor: Color(0xffffffff),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Password wajib di isi';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () async {
+                  //     final DateTime? picked = await showDatePicker(
+                  //       context: context,
+                  //       initialDate: DateTime.now(),
+                  //       firstDate: DateTime.now(),
+                  //       lastDate: DateTime(2100),
+                  //     );
+                  //     if (picked != null) {
+                  //       setState(() {
+                  //         selectedDate = picked;
+                  //         waktuController.text = DateFormat(
+                  //           'yyyy-MM-dd',
+                  //         ).format(picked);
+                  //       });
+                  //     }
+                  //   },
+                  //   child: AbsorbPointer(
+                  //     child: TextFormField(
+                  //       controller: waktuController,
+                  //       decoration: InputDecoration(
+                  //         hintText: "Tanggal Booking",
+                  //         hintStyle: TextStyle(color: Color(0xff333333)),
+                  //         prefixIcon: Icon(Icons.date_range),
+                  //         filled: true,
+                  //         fillColor: Color(0xffffffff),
+                  //         border: OutlineInputBorder(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           borderSide: BorderSide.none,
+                  //         ),
+                  //       ),
+                  //       validator: (value) {
+                  //         if (value == null || value.isEmpty) {
+                  //           return 'Wajib diisi';
+                  //         }
+                  //         return null;
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
                   SizedBox(height: 16),
                   TextFormField(
                     controller: kendaraanController,
@@ -140,7 +168,7 @@ class _AddServiceState extends State<AddService> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Password wajib di isi';
+                        return 'wajib di isi';
                       }
                       return null;
                     },
@@ -161,13 +189,13 @@ class _AddServiceState extends State<AddService> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Password wajib di isi';
+                        return 'wajib di isi';
                       }
                       return null;
                     },
                   ),
                   SizedBox(height: 24),
-      
+
                   SizedBox(
                     width: double.infinity,
                     // height: 20,
@@ -182,7 +210,7 @@ class _AddServiceState extends State<AddService> {
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
                           print('Berhasil');
-                          handleAddService();
+                          kirimService();
                         }
                       },
                       child: Text(
