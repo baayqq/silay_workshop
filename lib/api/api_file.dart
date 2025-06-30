@@ -10,8 +10,10 @@ import 'package:silay_workshop/model/login_null.dart';
 import 'package:silay_workshop/model/regist_already.dart';
 import 'package:silay_workshop/model/regist_error.dart';
 import 'package:silay_workshop/model/regist_model.dart';
+import 'package:silay_workshop/model/riwayat_model.dart';
 import 'package:silay_workshop/model/service_model.dart';
 import 'package:silay_workshop/model/edit_model.dart';
+import 'package:silay_workshop/model/status.dart';
 
 class UserService {
   Future<Map<String, dynamic>> registUser(
@@ -47,14 +49,15 @@ class UserService {
       body: {'name': name, 'email': email, 'password': password},
     );
 
-    if (response.statusCode == 200) {
-      return loginmodelFromJson(response.body).toJson();
-    } else if (response.statusCode == 422) {
-      return loginErrorFromJson(response.body).toJson();
-    } else if (response.statusCode == 422) {
-      return loginNullFromJson(response.body).toJson();
-    } else {
-      throw Exception('Gagal Menemukand Akun ${response.statusCode}');
+    try {
+      final json = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return loginmodelFromJson(response.body).toJson();
+      } else {
+        return {'message': json['message'] ?? 'Login gagal', 'error': true};
+      }
+    } catch (e) {
+      throw Exception('Gagal login. Kesalahan parsing atau server.');
     }
   }
 
@@ -116,8 +119,8 @@ class UserService {
       final jsonResponse = jsonDecode(response.body);
 
       final liatservis = Liatserv.fromJson(jsonResponse);
-      print("${liatservis}");
-      print("${jsonResponse}");
+      print("$liatservis");
+      print("$jsonResponse");
       return liatservis.data ?? [];
     } else {
       throw Exception(
@@ -211,5 +214,63 @@ class UserService {
     print('Body: ${response.body}');
 
     return response.statusCode == 200;
+  }
+
+  Future<List<StatusService>> statusServ() async {
+    final token = await SharedPrefService.getToken();
+
+    if (token == null) {
+      throw Exception('Token tidak ditemukan. Silakan login terlebih dahulu.');
+    }
+
+    final response = await http.get(
+      Uri.parse(Endpoint.liatservice),
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      final jsonResponse = jsonDecode(response.body);
+      final List<dynamic> dataList = jsonResponse['data'];
+      return dataList.map((json) => StatusService.fromJson(json)).toList();
+    } else {
+      throw Exception(
+        'Gagal memuat data service. Status: ${response.statusCode}',
+      );
+    }
+  }
+
+  Future<List<HistoryModel>> historyServ() async {
+    final token = await SharedPrefService.getToken();
+    if (token == null) {
+      throw Exception('Token tidak ditemukan. Silakan login terlebih dahulu.');
+    }
+
+    final response = await http.get(
+      Uri.parse(
+        '${Endpoint.baseUrl}/api/riwayat-servis',
+      ), // nanti ganti ke endpoint history jika berbeda
+      headers: {
+        'Accept': 'application/json', // pastikan ada
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    // ───── Tambahkan debugging di sini ─────
+    print('🔗 URL: ${response.request?.url}');
+    print('📋 Status code: ${response.statusCode}');
+    if (response.body.length > 200) {
+      print('📥 Body (first 200 chars): ${response.body.substring(0, 200)}…');
+    } else {
+      print('📥 Body: ${response.body}');
+    }
+    // ───────────────────────────────────────
+
+    if (response.statusCode != 200) {
+      throw Exception('Server error: ${response.statusCode}');
+    }
+
+    final jsonResponse = jsonDecode(response.body);
+    final List<dynamic> dataList = jsonResponse['data'];
+    return dataList.map((json) => HistoryModel.fromJson(json)).toList();
   }
 }

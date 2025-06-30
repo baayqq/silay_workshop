@@ -4,6 +4,7 @@ import 'package:silay_workshop/database/sharedprefence.dart';
 import 'package:silay_workshop/pages/addservice.dart';
 import 'package:silay_workshop/pages/home.dart';
 import 'package:silay_workshop/pages/profile.dart';
+import 'package:silay_workshop/pages/riwayat.dart';
 import 'package:silay_workshop/pages/service.dart';
 
 class HomeBottom extends StatefulWidget {
@@ -73,6 +74,16 @@ class _HomeBottomState extends State<HomeBottom> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.history_outlined, color: Colors.white),
+                title: Text('Riwayat', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RiwayatPage()),
                   );
                 },
               ),

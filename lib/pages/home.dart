@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:silay_workshop/api/api_file.dart';
 import 'package:silay_workshop/model/service_model.dart';
+import 'package:silay_workshop/model/status.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +11,46 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String getStatusText(String? status) {
+    switch (status?.toLowerCase()) {
+      case 'menunggu':
+        return 'Menunggu';
+      case 'diproses':
+        return 'Diproses';
+      case 'selesai':
+        return 'Selesai';
+      default:
+        return '-';
+    }
+  }
+
+  Color getStatusColor(String? status) {
+    switch (status?.toLowerCase()) {
+      case 'menunggu':
+        return Colors.grey;
+      case 'diproses':
+        return Colors.orange;
+      case 'selesai':
+        return Colors.green;
+      default:
+        return Colors.black;
+    }
+  }
+
+  IconData getStatusIcon(String? status) {
+    switch (status?.toLowerCase()) {
+      case 'menunggu':
+        return Icons.hourglass_empty;
+      case 'diproses':
+        return Icons.build;
+      case 'selesai':
+        return Icons.check_circle;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
+  late Future<List<StatusService>> _statusList;
   int completedCount = 0;
   int todayServiceCount = 0;
   int prosesCount = 0;
@@ -19,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _fetchServiceList();
+    _statusList = UserService().statusServ();
   }
 
   void _fetchServiceList() {
@@ -164,7 +206,7 @@ Semua kebutuhan bengkel kini ada dalam genggamanmu praktis, cepat, dan terpercay
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Center(child: Text('Error: \${snapshot.error}'));
+          return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(child: Text('Tidak ada data servis.'));
         } else {
@@ -175,7 +217,7 @@ Semua kebutuhan bengkel kini ada dalam genggamanmu praktis, cepat, dan terpercay
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  'Daftar Pelanggan',
+                  'Daftar Servis',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -185,20 +227,23 @@ Semua kebutuhan bengkel kini ada dalam genggamanmu praktis, cepat, dan terpercay
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(top: 0),
                 itemCount: services.length,
                 itemBuilder: (context, index) {
                   final serv = services[index];
+                  final isSelesai = serv.status?.toLowerCase() == "selesai";
                   return Card(
-                    color: Color(0xf1ffffff),
-                    elevation: 4,
+                    color: isSelesai ? Colors.green[50] : Colors.orange[50],
+                    elevation: 3,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 8),
+                    margin: const EdgeInsets.symmetric(vertical: 6),
                     child: ListTile(
-                      contentPadding: const EdgeInsets.all(12),
-                      leading: const Icon(Icons.build),
+                      leading: Icon(
+                        getStatusIcon(serv.status),
+                        color: getStatusColor(serv.status),
+                        size: 30,
+                      ),
                       title: Text(serv.vehicleType ?? 'Jenis tidak diketahui'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,7 +253,14 @@ Semua kebutuhan bengkel kini ada dalam genggamanmu praktis, cepat, dan terpercay
                           Text(
                             'Tanggal Input: ${serv.createdAt != null ? serv.createdAt!.toLocal().toString().split(".")[0] : "-"}',
                           ),
-                          Text('Status: ${serv.status ?? "-"}'),
+                          Text(
+                            'Status: ${getStatusText(serv.status)}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: getStatusColor(serv.status),
+                            ),
+                          ),
+                          Text('Update : ${serv.updatedAt!.toLocal().toString().split('.')[0]}')
                         ],
                       ),
                     ),

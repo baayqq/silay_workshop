@@ -63,12 +63,19 @@ class _ServicePageState extends State<ServicePage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                Navigator.pop(context);
+                // 1. Simpan status dulu, jangan pop dulu
                 await UserService().updateStatusService(
                   id: id,
                   status: selectedStatus,
                 );
+
+                // 2. Cek apakah masih mounted
                 if (!mounted) return;
+
+                // 3. Pop layar
+                Navigator.pop(context);
+
+                // 4. Tampilkan snackbar dan refresh list
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Status berhasil diupdate!')),
                 );

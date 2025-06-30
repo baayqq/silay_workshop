@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:silay_workshop/auth/login.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silay_workshop/database/sharedprefence.dart';
 import 'package:silay_workshop/pages/navhome.dart';
 

@@ -3,11 +3,15 @@ import 'package:silay_workshop/api/api_file.dart';
 import 'package:silay_workshop/auth/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  bool isObsecure = true;
     final TextEditingController userController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
@@ -53,6 +57,17 @@ class RegisterPage extends StatelessWidget {
       }
     }
 
+    @override
+    // ignore: unused_element
+    void dispose() {
+      // Buat membersihkan controller dari memori
+      userController.dispose();
+      emailController.dispose();
+      passwordController.dispose();
+      super.dispose(); // Jangan lupa super.dispose()
+    }
+ @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff0D47A1),
       body: Center(
@@ -131,10 +146,22 @@ class RegisterPage extends StatelessWidget {
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: passwordController,
-                          obscureText: true,
+                          obscureText: isObsecure,
                           decoration: InputDecoration(
                             hintText: "Password",
                             prefixIcon: const Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isObsecure
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isObsecure = !isObsecure;
+                                });
+                              },
+                            ),
                             filled: true,
                             fillColor: Colors.white,
                             border: OutlineInputBorder(

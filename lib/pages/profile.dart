@@ -45,6 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: const Color(0xff0D47A1),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
+
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -66,7 +67,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
               const SizedBox(height: 16),
-              const Text('Silay Workshop App'),
+              const Text('Silay Workshop\nversion 1.0.0 beta apps'),
             ],
           ),
         ),

@@ -4,31 +4,37 @@ import 'package:silay_workshop/auth/register.dart';
 import 'package:silay_workshop/database/sharedprefence.dart';
 import 'package:silay_workshop/pages/navhome.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController userController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final UserService userService = UserService();
-    final formKey = GlobalKey<FormState>();
-    void handleLogin() async {
-      if (formKey.currentState!.validate()) {
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool isObsecure = true;
+  final TextEditingController userController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final UserService userService = UserService();
+  final formKey = GlobalKey<FormState>();
+  void handleLogin() async {
+    if (formKey.currentState!.validate()) {
+      try {
         final res = await userService.loginUser(
           userController.text,
           emailController.text,
           passwordController.text,
         );
         print("Respon dari API: $res");
+
         if (res['data'] != null) {
           final token = res['data']['token'];
           await SharedPrefService.saveToken(token);
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('login berhasil'),
+              content: Text('Login berhasil'),
               backgroundColor: Colors.green,
             ),
           );
@@ -40,14 +46,32 @@ class LoginPage extends StatelessWidget {
         } else if (res['message'] != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('maaf ${res['message']}'),
+              content: Text('Maaf: ${res['message']}'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Login gagal. Cek kembali email dan password.'),
               backgroundColor: Colors.red,
             ),
           );
         }
+      } catch (e) {
+        // Tangkap semua exception dari UserService
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terjadi kesalahan: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xff0D47A1),
@@ -109,10 +133,23 @@ class LoginPage extends StatelessWidget {
                         SizedBox(height: 16),
                         TextFormField(
                           controller: passwordController,
+                          obscureText: isObsecure,
                           decoration: InputDecoration(
                             hintText: "Password",
                             hintStyle: TextStyle(color: Color(0xff333333)),
                             prefixIcon: Icon(Icons.lock),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                isObsecure
+                                    ? Icons.visibility_off
+                                    : Icons.visibility,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  isObsecure = !isObsecure;
+                                });
+                              },
+                            ),
                             filled: true,
                             fillColor: Color(0xffffffff),
                             border: OutlineInputBorder(
