@@ -19,14 +19,14 @@ class _HomeBottomState extends State<HomeBottom> {
 
   static final List<Widget> _butonNavigator = <Widget>[
     HomeScreen(),
-    ServicePage(),
     AddService(),
+    RiwayatPage(),
   ];
 
   static final List<String> _appBarTitles = [
     'Dashboard',
-    'Panel Admin',
     'Booking',
+    'Riwayat Servis',
   ];
 
   void _pilihNavigator(int index) {
@@ -78,12 +78,15 @@ class _HomeBottomState extends State<HomeBottom> {
                 },
               ),
               ListTile(
-                leading: Icon(Icons.history_outlined, color: Colors.white),
-                title: Text('Riwayat', style: TextStyle(color: Colors.white)),
+                leading: Icon(
+                  Icons.admin_panel_settings_outlined,
+                  color: Colors.white,
+                ),
+                title: Text('Admin', style: TextStyle(color: Colors.white)),
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => RiwayatPage()),
+                    MaterialPageRoute(builder: (context) => ServicePage()),
                   );
                 },
               ),
@@ -115,11 +118,9 @@ class _HomeBottomState extends State<HomeBottom> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.car_crash),
-            label: 'Service',
-          ),
+
           BottomNavigationBarItem(icon: Icon(Icons.add), label: 'Booking'),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Riwayat'),
         ],
         backgroundColor: Color(0xff0D47A1),
         currentIndex: _pilihIndex,

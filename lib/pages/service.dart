@@ -150,6 +150,19 @@ class _ServicePageState extends State<ServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Panel Admin',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xff0D47A1),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
       body: RefreshIndicator(
         onRefresh: () async => _fetchServiceList(),
         child: FutureBuilder<List<ServiceData>>(
@@ -246,7 +259,6 @@ class _ServicePageState extends State<ServicePage> {
                           ),
                         ],
                       ),
-                      onTap: () => _showEditForm(serv),
                     ),
                   );
                 },

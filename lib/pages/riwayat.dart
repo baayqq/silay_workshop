@@ -27,19 +27,19 @@ class _RiwayatPageState extends State<RiwayatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Riwayat Servis',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: const Color(0xff0D47A1),
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
+      // appBar: AppBar(
+      //   title: const Text(
+      //     'Riwayat Servis',
+      //     style: TextStyle(
+      //       fontWeight: FontWeight.bold,
+      //       fontSize: 24,
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      //   centerTitle: true,
+      //   backgroundColor: const Color(0xff0D47A1),
+      //   iconTheme: const IconThemeData(color: Colors.white),
+      // ),
       body: FutureBuilder<List<HistoryModel>>(
         future: _historyList,
         builder: (context, snapshot) {
@@ -58,7 +58,7 @@ class _RiwayatPageState extends State<RiwayatPage> {
                 final item = data[index];
                 return Card(
                   elevation: 4,
-                  color: Color(0xffffffff),
+                  color: Colors.green[50],
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   child: ListTile(
                     title: Text(
@@ -68,11 +68,21 @@ class _RiwayatPageState extends State<RiwayatPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("Keluhan: ${item.complaint ?? "-"}"),
-                        Text("Status: ${item.status ?? "-"}"),
+                        Text(
+                          "Status: ${item.status ?? "-"}",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green,
+                          ),
+                        ),
                         Text(
                           "Tanggal: ${item.createdAt?.toLocal().toString().split('T').first ?? '-'}",
                         ),
                       ],
+                    ),
+                    trailing: Icon(
+                      Icons.check_circle_outline_outlined,
+                      color: Colors.green,
                     ),
                   ),
                 );
