@@ -76,7 +76,10 @@ class _RiwayatPageState extends State<RiwayatPage> {
                           ),
                         ),
                         Text(
-                          "Tanggal: ${item.createdAt?.toLocal().toString().split('T').first ?? '-'}",
+                          'Tanggal Input: ${item.createdAt != null ? item.createdAt!.toLocal().toString().split(".")[0] : "-"}',
+                        ),
+                        Text(
+                          'Selesai: ${item.updatedAt != null ? item.updatedAt!.toLocal().toString().split(".")[0] : "-"}',
                         ),
                       ],
                     ),

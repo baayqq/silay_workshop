@@ -68,6 +68,16 @@ class _HomeBottomState extends State<HomeBottom> {
               // ),
               SizedBox(height: 30),
               ListTile(
+                leading: Icon(Icons.home_filled, color: Colors.white),
+                title: Text('Home', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeBottom()),
+                  );
+                },
+              ),
+              ListTile(
                 leading: Icon(Icons.manage_accounts, color: Colors.white),
                 title: Text('Profile', style: TextStyle(color: Colors.white)),
                 onTap: () {
