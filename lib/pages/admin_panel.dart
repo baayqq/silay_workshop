@@ -6,6 +6,7 @@ import 'package:silay_workshop/model/service_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:silay_workshop/pages/navhome.dart';
 import 'package:silay_workshop/pages/profile.dart';
+import 'package:intl/intl.dart';
 
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
@@ -272,7 +273,7 @@ class _ServicePageState extends State<ServicePage> {
                           const SizedBox(height: 4),
                           Text('Deskripsi: ${serv.complaint ?? "-"}'),
                           Text(
-                            'Dibuat Pada: ${serv.createdAt != null ? serv.createdAt!.toLocal().toString().split(".")[0] : "-"}',
+                            'Dibuat Pada: ${serv.createdAt != null ? DateFormat("dd MMMM yyyy HH:mm", "id_ID").format(serv.createdAt!.toLocal()) : "-"}',
                           ),
                           Text('Status: ${serv.status ?? "Belum ditentukan"}'),
                         ],

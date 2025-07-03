@@ -5,7 +5,7 @@ import 'package:silay_workshop/pages/addservice.dart';
 import 'package:silay_workshop/pages/home.dart';
 import 'package:silay_workshop/pages/profile.dart';
 import 'package:silay_workshop/pages/riwayat.dart';
-import 'package:silay_workshop/pages/service.dart';
+import 'package:silay_workshop/pages/admin_panel.dart';
 
 class HomeBottom extends StatefulWidget {
   const HomeBottom({super.key});

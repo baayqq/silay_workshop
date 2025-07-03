@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:silay_workshop/api/api_file.dart';
 import 'package:silay_workshop/model/service_model.dart';
 import 'package:silay_workshop/model/status.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -336,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(height: 4),
                       Text('Deskripsi: ${serv.complaint ?? "-"}'),
                       Text(
-                        'Tanggal Input: ${serv.createdAt != null ? serv.createdAt!.toLocal().toString().split(".")[0] : "-"}',
+                        'Tanggal Input: ${serv.createdAt != null ? DateFormat("dd MMMM yyyy HH:mm", "id_ID").format(serv.createdAt!.toLocal()) : "-"}',
                       ),
                       Text(
                         'Status: ${getStatusText(serv.status)}',
@@ -346,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Text(
-                        'Update: ${serv.updatedAt != null ? serv.updatedAt!.toLocal().toString().split(".")[0] : "-"}',
+                        'Update: ${serv.updatedAt != null ? DateFormat("dd MMMM yyyy HH:mm", "id_ID").format(serv.updatedAt!.toLocal()) : "-"}',
                       ),
                     ],
                   ),
