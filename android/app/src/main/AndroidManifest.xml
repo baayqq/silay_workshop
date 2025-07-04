@@ -1,14 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.silay_workshop">
 
-    <!-- Tambahkan permission INTERNET di sini -->
+    <!-- Tambahkan permission di sini (SEBELUM <application>) -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <application
         android:label="Silay Workshop"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         
+        <!-- aktivitas utama -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -29,11 +32,16 @@
             </intent-filter>
         </activity>
 
+        <!-- metadata lainnya -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAE3Q3MpbAEYfbOOpmmsLSWjpBMKh-5TGc"/>
     </application>
 
+    <!-- query intent -->
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT" />
