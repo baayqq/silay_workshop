@@ -3,6 +3,7 @@ import 'package:silay_workshop/auth/login.dart';
 import 'package:silay_workshop/database/sharedprefence.dart';
 import 'package:silay_workshop/pages/addservice.dart';
 import 'package:silay_workshop/pages/home.dart';
+import 'package:silay_workshop/pages/location.dart';
 import 'package:silay_workshop/pages/profile.dart';
 import 'package:silay_workshop/pages/riwayat.dart';
 import 'package:silay_workshop/pages/admin_panel.dart';
@@ -97,6 +98,16 @@ class _HomeBottomState extends State<HomeBottom> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ServicePage()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.location_city, color: Colors.white),
+                title: Text('Location', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GeLocation()),
                   );
                 },
               ),
