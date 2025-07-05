@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:silay_workshop/api/api_file.dart';
-import 'package:silay_workshop/auth/login.dart';
+import 'package:si_bengkel/api/api_file.dart';
+import 'package:si_bengkel/auth/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -12,61 +12,62 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   bool isObsecure = true;
-    final TextEditingController userController = TextEditingController();
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final UserService userService = UserService();
-    final formKey = GlobalKey<FormState>();
+  final TextEditingController userController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final UserService userService = UserService();
+  final formKey = GlobalKey<FormState>();
 
-    void handleRegist() async {
-      if (formKey.currentState!.validate()) {
-        final res = await userService.registUser(
-          userController.text,
-          emailController.text,
-          passwordController.text,
+  void handleRegist() async {
+    if (formKey.currentState!.validate()) {
+      final res = await userService.registUser(
+        userController.text,
+        emailController.text,
+        passwordController.text,
+      );
+
+      if (res['data'] != null && res['data']['user'] != null) {
+        final String name = res['data']['user']['name'];
+        final String email = res['data']['user']['email'];
+
+        // Simpan nama dan email ke SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('username', name);
+        await prefs.setString('email', email);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Registrasi berhasil! Selamat datang, $name'),
+            backgroundColor: Colors.green,
+          ),
         );
 
-        if (res['data'] != null && res['data']['user'] != null) {
-          final String name = res['data']['user']['name'];
-          final String email = res['data']['user']['email'];
-
-          // Simpan nama dan email ke SharedPreferences
-          final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('username', name);
-          await prefs.setString('email', email);
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Registrasi berhasil! Selamat datang, $name'),
-              backgroundColor: Colors.green,
-            ),
-          );
-
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const LoginPage()),
-          );
-        } else if (res['errors'] != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Maaf: ${res['message']}'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      } else if (res['errors'] != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Maaf: ${res['message']}'),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
+  }
 
-    @override
-    // ignore: unused_element
-    void dispose() {
-      // Buat membersihkan controller dari memori
-      userController.dispose();
-      emailController.dispose();
-      passwordController.dispose();
-      super.dispose(); // Jangan lupa super.dispose()
-    }
- @override
+  @override
+  // ignore: unused_element
+  void dispose() {
+    // Buat membersihkan controller dari memori
+    userController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose(); // Jangan lupa super.dispose()
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff0D47A1),

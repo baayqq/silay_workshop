@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:silay_workshop/auth/login.dart';
-import 'package:silay_workshop/database/sharedprefence.dart';
-import 'package:silay_workshop/pages/addservice.dart';
-import 'package:silay_workshop/pages/home.dart';
-import 'package:silay_workshop/pages/location.dart';
-import 'package:silay_workshop/pages/profile.dart';
-import 'package:silay_workshop/pages/riwayat.dart';
-import 'package:silay_workshop/pages/admin_panel.dart';
+import 'package:si_bengkel/auth/login.dart';
+import 'package:si_bengkel/database/sharedprefence.dart';
+import 'package:si_bengkel/pages/addservice.dart';
+import 'package:si_bengkel/pages/home.dart';
+import 'package:si_bengkel/pages/location.dart';
+import 'package:si_bengkel/pages/profile.dart';
+import 'package:si_bengkel/pages/riwayat.dart';
+import 'package:si_bengkel/pages/admin_panel.dart';
 
 class HomeBottom extends StatefulWidget {
   const HomeBottom({super.key});

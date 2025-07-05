@@ -1,19 +1,19 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:silay_workshop/api/endpoint.dart';
-import 'package:silay_workshop/database/sharedprefence.dart';
-import 'package:silay_workshop/model/liatservice.dart';
-import 'package:silay_workshop/model/login_error.dart';
-import 'package:silay_workshop/model/login_model.dart';
-import 'package:silay_workshop/model/login_null.dart';
-import 'package:silay_workshop/model/regist_already.dart';
-import 'package:silay_workshop/model/regist_error.dart';
-import 'package:silay_workshop/model/regist_model.dart';
-import 'package:silay_workshop/model/riwayat_model.dart';
-import 'package:silay_workshop/model/service_model.dart';
-import 'package:silay_workshop/model/edit_model.dart';
-import 'package:silay_workshop/model/status.dart';
+import 'package:si_bengkel/api/endpoint.dart';
+import 'package:si_bengkel/database/sharedprefence.dart';
+import 'package:si_bengkel/model/liatservice.dart';
+import 'package:si_bengkel/model/login_error.dart';
+import 'package:si_bengkel/model/login_model.dart';
+import 'package:si_bengkel/model/login_null.dart';
+import 'package:si_bengkel/model/regist_already.dart';
+import 'package:si_bengkel/model/regist_error.dart';
+import 'package:si_bengkel/model/regist_model.dart';
+import 'package:si_bengkel/model/riwayat_model.dart';
+import 'package:si_bengkel/model/service_model.dart';
+import 'package:si_bengkel/model/edit_model.dart';
+import 'package:si_bengkel/model/status.dart';
 
 class UserService {
   Future<Map<String, dynamic>> registUser(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:silay_workshop/auth/login.dart';
+import 'package:si_bengkel/auth/login.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:silay_workshop/database/sharedprefence.dart';
-import 'package:silay_workshop/pages/navhome.dart';
+import 'package:si_bengkel/database/sharedprefence.dart';
+import 'package:si_bengkel/pages/navhome.dart';
 import 'package:intl/date_symbol_data_local.dart'; // import tambahan untuk lokal tanggal
 
 void main() async {

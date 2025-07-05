@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:silay_workshop/api/api_file.dart';
-import 'package:silay_workshop/auth/register.dart';
-import 'package:silay_workshop/database/sharedprefence.dart';
-import 'package:silay_workshop/pages/navhome.dart';
+import 'package:si_bengkel/api/api_file.dart';
+import 'package:si_bengkel/auth/register.dart';
+import 'package:si_bengkel/database/sharedprefence.dart';
+import 'package:si_bengkel/pages/navhome.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

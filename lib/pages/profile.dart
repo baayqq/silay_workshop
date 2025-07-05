@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 12),
                     const Text(
-                      'Silay Workshop',
+                      'Si Bengkel',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

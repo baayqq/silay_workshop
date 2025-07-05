@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:silay_workshop/api/api_file.dart';
-import 'package:silay_workshop/model/service_model.dart';
-import 'package:silay_workshop/model/status.dart';
+import 'package:si_bengkel/api/api_file.dart';
+import 'package:si_bengkel/model/service_model.dart';
+import 'package:si_bengkel/model/status.dart';
 import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {

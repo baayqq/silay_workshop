@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:silay_workshop/api/api_file.dart';
-import 'package:silay_workshop/model/riwayat_model.dart';
+import 'package:si_bengkel/api/api_file.dart';
+import 'package:si_bengkel/model/riwayat_model.dart';
 import 'package:intl/intl.dart';
 
 class RiwayatPage extends StatefulWidget {

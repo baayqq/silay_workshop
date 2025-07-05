@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:silay_workshop/api/api_file.dart';
-import 'package:silay_workshop/auth/login.dart';
-import 'package:silay_workshop/database/sharedprefence.dart';
-import 'package:silay_workshop/model/service_model.dart';
+import 'package:si_bengkel/api/api_file.dart';
+import 'package:si_bengkel/auth/login.dart';
+import 'package:si_bengkel/database/sharedprefence.dart';
+import 'package:si_bengkel/model/service_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:silay_workshop/pages/navhome.dart';
-import 'package:silay_workshop/pages/profile.dart';
+import 'package:si_bengkel/pages/navhome.dart';
+import 'package:si_bengkel/pages/profile.dart';
 import 'package:intl/intl.dart';
 
 class ServicePage extends StatefulWidget {
