@@ -13,7 +13,7 @@ class GeLocation extends StatefulWidget {
 
 class _GeLocationState extends State<GeLocation> {
   GoogleMapController? mapController;
-  LatLng _currentPosition = LatLng(-6.200000, 106.816666);
+  LatLng _currentPosition = LatLng(-6.210879, 106.812942);
   String _currentAdress = 'Alamat tidak ditemukan';
   Marker? _marker;
 
@@ -75,20 +75,43 @@ class _GeLocationState extends State<GeLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Google Map + Geolocator + Gecoding')),
+      appBar: AppBar(
+        title: Text(
+          'Store Location',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: Color(0xff0D47A1),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: Stack(
         children: [
-          GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: _currentPosition,
-              zoom: 14,
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              child: Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(),
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: _currentPosition,
+                    zoom: 14,
+                  ),
+                  onMapCreated: (controller) {
+                    mapController = controller;
+                  },
+                  markers: _marker != null ? {_marker!} : {},
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                ),
+              ),
             ),
-            onMapCreated: (controller) {
-              mapController = controller;
-            },
-            markers: _marker != null ? {_marker!} : {},
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
           ),
           Positioned(
             top: 16,
@@ -105,9 +128,10 @@ class _GeLocationState extends State<GeLocation> {
           ),
         ],
       ),
+      
       floatingActionButton: FloatingActionButton(
         onPressed: _getCurrentLocation,
-        child: Icon(Icons.refresh),
+        child: Icon(Icons.location_searching),
         tooltip: 'Refresh Lokasi',
       ),
     );
